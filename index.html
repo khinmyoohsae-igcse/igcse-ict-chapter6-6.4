@@ -228,7 +228,7 @@
         <!-- Quiz Container -->
         <div id="quiz-container" class="card">
             <div id="question-box" class="question-text">
-                Loading question.
+                Loading question...
             </div>
 
             <div id="options-container" class="options-list">
@@ -352,7 +352,7 @@
                 question: "What are the advantages of transitioning from paper-based school records to a centralized School Management System?",
                 options: [
                     { text: "Faster data retrieval, reduced paperwork clutter, improved accuracy, easy data backups, and instant multi-user access across departments", isCorrect: true, rationale: "Digital systems eliminate paper filing cabinets, enabling instant searching, secure backups, and shared access." },
-                    { text: "Increased physical storage space required for bulky paper folders", isCorrect: true.split()[0] === 'false' && true, rationale: "Digital systems reduce physical storage requirements, not increase them." },
+                    { text: "Increased physical storage space required for bulky paper folders", isCorrect: false, rationale: "Digital systems reduce physical storage requirements, not increase them." },
                     { text: "Zero reliance on electrical power or computer hardware", isCorrect: false, rationale: "Database software requires computers and electricity." },
                     { text: "Complete elimination of database security requirements", isCorrect: false, rationale: "Digital databases require robust security." }
                 ]
@@ -454,6 +454,19 @@
         const resultsContainer = document.getElementById("results-container");
         const finalScore = document.getElementById("final-score");
 
+        function shuffleArray(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex !== 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        // Shuffle questions order on load
+        shuffleArray(questions);
+
         function loadQuestion() {
             answered = false;
             feedbackBox.classList.add("hidden");
@@ -465,7 +478,8 @@
             questionBox.textContent = q.question;
 
             // Shuffle options array randomly so correct answer is not always first
-            let shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+            let shuffledOptions = [...q.options];
+            shuffleArray(shuffledOptions);
 
             optionsContainer.innerHTML = "";
             shuffledOptions.forEach((opt) => {
@@ -497,10 +511,11 @@
                 score++;
                 scoreDisplay.textContent = `Score: ${score}`;
                 feedbackBox.className = "feedback-box correct-feedback";
-                feedbackBox.innerHTML = `<strong>Correct!</strong> ${selectedOpt.rationale}`;
+                feedbackBox.innerHTML = `<strong>Correct! 🎉</strong> ${selectedOpt.rationale}`;
             } else {
                 feedbackBox.className = "feedback-box incorrect-feedback";
-                feedbackBox.innerHTML = `<strong>Incorrect.</strong> ${selectedOpt.rationale}`;
+                const correctOpt = questions[currentQuestionIndex].options.find(o => o.isCorrect);
+                feedbackBox.innerHTML = `<strong>Incorrect.</strong> ${selectedOpt.rationale}<br><br><em>Correct answer:</em> ${correctOpt.text}`;
             }
 
             if (currentQuestionIndex < questions.length - 1) {
@@ -525,6 +540,7 @@
         function restartQuiz() {
             currentQuestionIndex = 0;
             score = 0;
+            shuffleArray(questions);
             resultsContainer.classList.add("hidden");
             quizContainer.classList.remove("hidden");
             loadQuestion();
