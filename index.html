@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IGCSE ICT - School Management Systems Quiz (20 MCQs)</title>
+    <style>
+        :root {
+            --bg-main: #090d16;
+            --bg-card: #131d31;
+            --border-color: #223354;
+            --accent: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        header {
+            background-color: var(--bg-card);
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.5rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        header h1 {
+            color: var(--accent);
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.35rem;
+        }
+
+        header p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .quiz-status {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.25rem;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+
+        .score-pill {
+            background-color: #0c4a6e;
+            color: #7dd3fc;
+            padding: 0.35rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid #0284c7;
+        }
+
+        .card {
+            width: 100%;
+            background-color: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 1.25rem;
+            padding: 2rem;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #f1f5f9;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.85rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .option-btn {
+            width: 100%;
+            text-align: left;
+            background-color: #1e293b;
+            color: var(--text-main);
+            padding: 1rem 1.25rem;
+            border-radius: 0.85rem;
+            border: 1px solid #334155;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background-color: #283548;
+            border-color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        .option-btn:disabled {
+            cursor: not-allowed;
+        }
+
+        .option-btn.correct {
+            background-color: #064e3b !important;
+            border-color: #059669 !important;
+            color: #ecfdf5 !important;
+        }
+
+        .option-btn.incorrect {
+            background-color: #7f1d1d !important;
+            border-color: #dc2626 !important;
+            color: #fee2e2 !important;
+        }
+
+        .feedback-box {
+            padding: 1.15rem;
+            border-radius: 0.85rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .feedback-box.correct-feedback {
+            background-color: #022c22;
+            border: 1px solid #047857;
+            color: #a7f3d0;
+        }
+
+        .feedback-box.incorrect-feedback {
+            background-color: #450a0a;
+            border: 1px solid #b91c1c;
+            color: #fecdd3;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: #0f172a;
+            font-weight: 700;
+            padding: 0.85rem 1.75rem;
+            border-radius: 0.85rem;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-1px);
+        }
+
+        .results-card {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .results-card h2 {
+            font-size: 2.25rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .results-card p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        footer {
+            background-color: var(--bg-card);
+            border-top: 1px solid var(--border-color);
+            padding: 1rem;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>IGCSE ICT Practice Quiz</h1>
+        <p>Topics 6.4 & 6.4.1 School Management Systems (20 MCQs)</p>
+    </header>
+
+    <main>
+        <div class="quiz-status">
+            <span id="question-counter">Question 1 of 20</span>
+            <span id="score-display" class="score-pill">Score: 0</span>
+        </div>
+
+        <!-- Quiz Container -->
+        <div id="quiz-container" class="card">
+            <div id="question-box" class="question-text">
+                Loading question.
+            </div>
+
+            <div id="options-container" class="options-list">
+                <!-- Options populated dynamically -->
+            </div>
+
+            <div id="feedback-box" class="feedback-box hidden">
+                <!-- Feedback populated dynamically -->
+            </div>
+
+            <div style="display: flex; justify-content: flex-end;">
+                <button id="next-btn" onclick="nextQuestion()" class="btn-primary hidden">Next Question</button>
+            </div>
+        </div>
+
+        <!-- Results Container -->
+        <div id="results-container" class="card results-card hidden">
+            <h2>Quiz Completed! 🎉</h2>
+            <p id="final-score">You scored X out of 20</p>
+            <button onclick="restartQuiz()" class="btn-primary">Restart Quiz</button>
+        </div>
+    </main>
+
+    <footer>
+        IGCSE ICT Revision &bull; School Management Systems
+    </footer>
+
+    <script>
+        const questions = [
+            {
+                question: "What is a School Management System (SMS)?",
+                options: [
+                    { text: "An integrated software information system used by educational institutions to manage administrative, academic, and student data centrally", isCorrect: true, rationale: "School Management Systems centralize student records, attendance, grades, and administrative tasks into one database platform." },
+                    { text: "A hardware robot used for cleaning school hallway floors", isCorrect: false, rationale: "This describes robotic cleaning equipment." },
+                    { text: "A physical filing cabinet for storing paper student folders", isCorrect: false, rationale: "An SMS is digital database software, not physical furniture." },
+                    { text: "A wireless network router connecting school laptops", isCorrect: false, rationale: "This describes networking hardware." }
+                ]
+            },
+            {
+                question: "What core student data is typically stored and managed within a School Management System?",
+                options: [
+                    { text: "Student personal details, attendance records, academic grades, timetables, and medical information", isCorrect: true, rationale: "SMS platforms maintain comprehensive student profiles including demographics, attendance, and assessment results." },
+                    { text: "Detailed financial stock market trading portfolios", isCorrect: false, rationale: "SMS handles school data, not stock exchange trading." },
+                    { text: "Meteorological weather forecasts and rainfall data", isCorrect: false, rationale: "This is meteorological software." },
+                    { text: "Flight tracking schedules for international airlines", isCorrect: false, rationale: "This is aviation software." }
+                ]
+            },
+            {
+                question: "How does a School Management System handle student attendance tracking?",
+                options: [
+                    { text: "Teachers input daily attendance digitally into the system, which automatically updates central records and notifies parents of absences", isCorrect: true, rationale: "Digital attendance registers replace paper books, enabling instant tracking and automated SMS/email alerts to parents." },
+                    { text: "By scanning student barcodes using supermarket checkout scanners", isCorrect: false, rationale: "Schools use digital registers or RFID cards, not retail checkout scanners." },
+                    { text: "By printing paper absence letters on dot-matrix printers", isCorrect: false, rationale: "Attendance is tracked digitally in databases." },
+                    { text: "By measuring student body temperature with thermal sensors", isCorrect: false, rationale: "This is health screening, not attendance recording." }
+                ]
+            },
+            {
+                question: "What are the benefits of a School Management System for teachers?",
+                options: [
+                    { text: "Quick electronic gradebook entry, automated attendance marking, easy access to student profiles, and streamlined lesson planning/timetabling", isCorrect: true, rationale: "SMS software reduces administrative paperwork for teachers, allowing faster grading and centralized student monitoring." },
+                    { text: "Elimination of all teaching responsibilities so teachers never work", isCorrect: false, rationale: "Teachers still teach; SMS simplifies administrative tasks." },
+                    { text: "Requirement to write all student reports by hand on paper", isCorrect: false, rationale: "SMS generates reports digitally." },
+                    { text: "Inability to view student timetables", isCorrect: false, rationale: "Teachers view schedules easily through the portal." }
+                ]
+            },
+            {
+                question: "What benefits do parents gain from having access to a School Management System parent portal?",
+                options: [
+                    { text: "Real-time visibility into their child's attendance, academic progress, homework assignments, behavior reports, and school fee statements", isCorrect: true, rationale: "Parent portals keep families informed about school performance and attendance instantly online." },
+                    { text: "The ability to change school exam grade results directly", isCorrect: false, rationale: "Parents can view grades but cannot alter official academic scores." },
+                    { text: "Control over the school's heating and air conditioning thermostats", isCorrect: false, rationale: "Parents do not manage school building facilities." },
+                    { text: "Authority to hire and fire school teaching staff", isCorrect: false, rationale: "Staff management is handled by school administration." }
+                ]
+            },
+            {
+                question: "How does an SMS assist school administrators with timetable generation and classroom scheduling?",
+                options: [
+                    { text: "Using scheduling algorithms to match teachers, subjects, student groups, and available classrooms without creating scheduling clashes", isCorrect: true, rationale: "Automated timetabling modules solve complex scheduling constraints, preventing room and teacher double-booking." },
+                    { text: "By drawing paper timetables by hand using colored pencils", isCorrect: false, rationale: "SMS automates scheduling digitally." },
+                    { text: "By throwing physical dice to assign rooms randomly", isCorrect: false, rationale: "Random dice rolls would cause massive classroom clashes." },
+                    { text: "By storing backup files on magnetic tape reels", isCorrect: false, rationale: "This is storage media." }
+                ]
+            },
+            {
+                question: "What financial management features are typically included in a comprehensive School Management System?",
+                options: [
+                    { text: "Tracking tuition fee payments, generating billing invoices, managing payroll for staff, and budgeting school expenditures", isCorrect: true, rationale: "SMS financial modules manage school accounts, fee collections, invoicing, and staff salaries." },
+                    { text: "Trading international cryptocurrency assets on global exchanges", isCorrect: false, rationale: "Schools manage tuition and budgets, not crypto trading." },
+                    { text: "Printing lottery tickets for fundraising", isCorrect: false, rationale: "This is unrelated." },
+                    { text: "Scanning supermarket barcodes for grocery shopping", isCorrect: false, rationale: "This is retail POS." }
+                ]
+            },
+            {
+                question: "Why is data security and user access control crucial in a School Management System?",
+                options: [
+                    { text: "Because SMS databases contain sensitive personal data (student records, medical info, addresses), requiring strict permission levels so unauthorized users cannot view or alter files", isCorrect: true, rationale: "Role-based access control ensures students, teachers, parents, and admins only see data appropriate to their role." },
+                    { text: "To prevent the computer monitor from overheating", isCorrect: false, rationale: "Access control secures data confidentiality, not hardware temperature." },
+                    { text: "To increase internet download broadband speeds", isCorrect: false, rationale: "Permissions do not affect network bandwidth." },
+                    { text: "To format hard disk drives into clean partitions", isCorrect: false, rationale: "This is disk management." }
+                ]
+            },
+            {
+                question: "How does an SMS help in generating student report cards?",
+                options: [
+                    { text: "By aggregating continuous assessment scores and exam marks stored in the database, calculating averages/grades automatically, and formatting printable reports", isCorrect: true, rationale: "SMS compiles gradebook data automatically, producing professional report cards with minimal manual calculation." },
+                    { text: "By requiring teachers to calculate every student's average manually with a pocket calculator", isCorrect: false, rationale: "SMS automates grade calculation." },
+                    { text: "By printing blank paper templates for hand-written grades", isCorrect: false, rationale: "Reports are generated digitally." },
+                    { text: "By sending report data via postal mail without digital storage", isCorrect: false, rationale: "Reports originate from centralized database records." }
+                ]
+            },
+            {
+                question: "What is the role of an SMS in managing school admissions and student enrollment?",
+                options: [
+                    { text: "Processing online application forms, tracking admission stages, managing waiting lists, and onboarding new student profiles into the database", isCorrect: true, rationale: "Admissions modules streamline new student registration from initial application to final database enrollment." },
+                    { text: "Conducting driving test examinations for school bus drivers", isCorrect: false, rationale: "This is transport licensing." },
+                    { text: "Scanning grocery items at the school canteen", isCorrect: false, rationale: "This is canteen point-of-sale." },
+                    { text: "Measuring playground soil moisture levels", isCorrect: false, rationale: "This is environmental gardening." }
+                ]
+            },
+            {
+                question: "What are the advantages of transitioning from paper-based school records to a centralized School Management System?",
+                options: [
+                    { text: "Faster data retrieval, reduced paperwork clutter, improved accuracy, easy data backups, and instant multi-user access across departments", isCorrect: true, rationale: "Digital systems eliminate paper filing cabinets, enabling instant searching, secure backups, and shared access." },
+                    { text: "Increased physical storage space required for bulky paper folders", isCorrect: true.split()[0] === 'false' && true, rationale: "Digital systems reduce physical storage requirements, not increase them." },
+                    { text: "Zero reliance on electrical power or computer hardware", isCorrect: false, rationale: "Database software requires computers and electricity." },
+                    { text: "Complete elimination of database security requirements", isCorrect: false, rationale: "Digital databases require robust security." }
+                ]
+            },
+            {
+                question: "What are potential disadvantages or challenges of implementing a new School Management System?",
+                options: [
+                    { text: "High software and hardware setup costs, staff training requirements, data migration complexities, and risks of system downtime or data breaches", isCorrect: true, rationale: "Adopting new enterprise software requires financial investment, staff training, and careful cybersecurity management." },
+                    { text: "It instantly makes all school teachers obsolete", isCorrect: false, rationale: "SMS supports teachers; it does not replace them." },
+                    { text: "It causes school buildings to become physically smaller", isCorrect: false, rationale: "Software does not alter physical building architecture." },
+                    { text: "It operates without needing any user interface or database", isCorrect: false, rationale: "Databases and interfaces are essential." }
+                ]
+            },
+            {
+                question: "How do library management modules within an SMS assist school librarians?",
+                options: [
+                    { text: "By tracking book inventories, managing book lending/returns, recording overdue fines, and tracking student borrowing history", isCorrect: true, rationale: "Library modules automate book cataloging and circulation tracking for school libraries." },
+                    { text: "By printing paper textbooks on demand using laser printers", isCorrect: false, rationale: "Librarians manage book circulation, they do not publish or print textbooks." },
+                    { text: "By cleaning library reading desks automatically", isCorrect: false, rationale: "This is cleaning maintenance." },
+                    { text: "By grading student mathematics exams", isCorrect: false, rationale: "Exam grading is handled by academic modules." }
+                ]
+            },
+            {
+                question: "How do SMS behavior and disciplinary tracking modules function?",
+                options: [
+                    { text: "They log positive achievements, merits, behavioral incidents, and disciplinary actions, allowing staff to monitor student conduct and notify parents", isCorrect: true, rationale: "Behavior modules record student conduct milestones and infractions to maintain institutional standards and parent communication." },
+                    { text: "They automatically lock misbehaving students inside classroom lockers", isCorrect: false, rationale: "This is unsafe and unlawful; behavior tracking logs records, not physical punishment." },
+                    { text: "They print detention slips on dot-matrix printers", isCorrect: false, rationale: "While notices can be printed, the core function is database logging and notification." },
+                    { text: "They scan student fingerprints to assign homework", isCorrect: false, rationale: "Homework is assigned via academic modules." }
+                ]
+            },
+            {
+                question: "What is cloud-based School Management System hosting compared to local on-premise server hosting?",
+                options: [
+                    { text: "Cloud hosting stores data on remote vendor servers accessed via the internet, whereas on-premise hosting requires physical servers installed at the school", isCorrect: true, rationale: "Cloud SMS removes the need for local school server hardware, offering remote access and automated vendor maintenance." },
+                    { text: "Cloud hosting requires storing data inside physical cardboard boxes", isCorrect: false, rationale: "Cloud data is digital storage on remote servers." },
+                    { text: "On-premise hosting is accessed exclusively from outer space satellites", isCorrect: false, rationale: "On-premise servers are located locally inside school buildings." },
+                    { text: "There is no functional difference between cloud and on-premise hosting", isCorrect: false, rationale: "Infrastructure ownership and remote access capabilities differ significantly." }
+                ]
+            },
+            {
+                question: "Why do School Management Systems often include communication tools (like integrated email and SMS messaging)?",
+                options: [
+                    { text: "To enable rapid, direct communication between the school and parents regarding attendance alerts, emergency closures, and school events", isCorrect: true, rationale: "Integrated messaging ensures timely notifications reach parents directly on their mobile devices." },
+                    { text: "To play commercial radio broadcast music in classrooms", isCorrect: false, rationale: "Messaging tools are for administrative and parent-school communication." },
+                    { text: "To print paper flyers for postal mailing", isCorrect: false, rationale: "SMS messaging replaces postal mail with instant digital alerts." },
+                    { text: "To browse public social media feeds", isCorrect: false, rationale: "This is social media browsing." }
+                ]
+            },
+            {
+                question: "How do SMS examination and assessment modules assist academic departments?",
+                options: [
+                    { text: "By recording component marks, setting grade boundaries, generating statistical performance analysis graphs, and tracking historical student progress", isCorrect: true, rationale: "Exam modules analyze student performance metrics across terms and years to evaluate teaching and learning outcomes." },
+                    { text: "By writing exam essay questions automatically using artificial intelligence", isCorrect: false, rationale: "Exams are set by teachers; the system stores and processes the resulting marks." },
+                    { text: "By scanning OMR sheets with flatbed office scanners", isCorrect: false, rationale: "While OMR sheets can feed data into the system, the SMS itself manages the database records and analytics." },
+                    { text: "By locking student computers during tests", isCorrect: false, rationale: "This describes secure exam browser lockdown software." }
+                ]
+            },
+            {
+                question: "What role do unique student ID numbers play in a School Management System database?",
+                options: [
+                    { text: "They act as primary keys in the database tables, ensuring every student has a unique identifier to prevent data confusion and duplicate records", isCorrect: true, rationale: "Primary keys uniquely identify each student record across all database tables (attendance, grades, fees)." },
+                    { text: "They determine the student's height and shoe size", isCorrect: false, rationale: "ID numbers are database keys, not physical body measurements." },
+                    { text: "They specify the student's home postal mailing address", isCorrect: false, rationale: "Addresses are stored in separate demographic fields." },
+                    { text: "They act as Wi-Fi router passwords", isCorrect: false, rationale: "Wi-Fi passwords secure wireless access, not database keys." }
+                ]
+            },
+            {
+                question: "Why must a School Management System comply with data protection regulations (such as GDPR)?",
+                options: [
+                    { text: "To ensure student and staff personal data is handled legally, stored securely, kept confidential, and processed only for legitimate educational purposes", isCorrect: true, rationale: "Data protection laws require schools to safeguard personal data against unauthorized access or misuse." },
+                    { text: "To ensure computers run video games at 120 frames per second", isCorrect: false, rationale: "Regulations govern privacy law compliance, not gaming frame rates." },
+                    { text: "To eliminate the need for internet broadband connections", isCorrect: false, rationale: "Regulations have no impact on internet connectivity requirements." },
+                    { text: "To increase school tuition fee prices", isCorrect: false, rationale: "Data laws protect privacy; they do not dictate school fees." }
+                ]
+            },
+            {
+                question: "Which summary best encapsulates 6.4 / 6.4.1 School Management Systems in IGCSE ICT?",
+                options: [
+                    { text: "School Management Systems are centralized database software platforms that streamline administrative, academic, and financial operations, providing secure role-based access for administrators, teachers, students, and parents", isCorrect: true, rationale: "SMS platforms integrate school data administration into a unified, secure database accessible by all stakeholders." },
+                    { text: "School Management Systems are manual paper filing cabinets used solely for storing chalk and dusters", isCorrect: false, rationale: "SMS is advanced enterprise database software." },
+                    { text: "School Management Systems are offline video game consoles used in school cafeterias", isCorrect: false, rationale: "This is incorrect." },
+                    { text: "School Management Systems require no database storage or user permissions", isCorrect: false, rationale: "Databases and access control permissions are foundational to any SMS." }
+                ]
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let answered = false;
+
+        const questionCounter = document.getElementById("question-counter");
+        const scoreDisplay = document.getElementById("score-display");
+        const questionBox = document.getElementById("question-box");
+        const optionsContainer = document.getElementById("options-container");
+        const feedbackBox = document.getElementById("feedback-box");
+        const nextBtn = document.getElementById("next-btn");
+        const quizContainer = document.getElementById("quiz-container");
+        const resultsContainer = document.getElementById("results-container");
+        const finalScore = document.getElementById("final-score");
+
+        function loadQuestion() {
+            answered = false;
+            feedbackBox.classList.add("hidden");
+            nextBtn.classList.add("hidden");
+            
+            const q = questions[currentQuestionIndex];
+            questionCounter.textContent = `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+            scoreDisplay.textContent = `Score: ${score}`;
+            questionBox.textContent = q.question;
+
+            // Shuffle options array randomly so correct answer is not always first
+            let shuffledOptions = [...q.options].sort(() => Math.random() - 0.5);
+
+            optionsContainer.innerHTML = "";
+            shuffledOptions.forEach((opt) => {
+                const btn = document.createElement("button");
+                btn.className = "option-btn";
+                btn.textContent = opt.text;
+                btn.onclick = () => selectOption(opt, shuffledOptions);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectOption(selectedOpt, shuffledOptions) {
+            if (answered) return;
+            answered = true;
+
+            const allOptionButtons = optionsContainer.children;
+
+            shuffledOptions.forEach((opt, idx) => {
+                allOptionButtons[idx].disabled = true;
+                if (opt.isCorrect) {
+                    allOptionButtons[idx].classList.add("correct");
+                } else if (opt === selectedOpt && !selectedOpt.isCorrect) {
+                    allOptionButtons[idx].classList.add("incorrect");
+                }
+            });
+
+            feedbackBox.classList.remove("hidden");
+            if (selectedOpt.isCorrect) {
+                score++;
+                scoreDisplay.textContent = `Score: ${score}`;
+                feedbackBox.className = "feedback-box correct-feedback";
+                feedbackBox.innerHTML = `<strong>Correct!</strong> ${selectedOpt.rationale}`;
+            } else {
+                feedbackBox.className = "feedback-box incorrect-feedback";
+                feedbackBox.innerHTML = `<strong>Incorrect.</strong> ${selectedOpt.rationale}`;
+            }
+
+            if (currentQuestionIndex < questions.length - 1) {
+                nextBtn.textContent = "Next Question";
+            } else {
+                nextBtn.textContent = "View Results";
+            }
+            nextBtn.classList.remove("hidden");
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                quizContainer.classList.add("hidden");
+                resultsContainer.classList.remove("hidden");
+                finalScore.textContent = `You scored ${score} out of ${questions.length}`;
+            }
+        }
+
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            resultsContainer.classList.add("hidden");
+            quizContainer.classList.remove("hidden");
+            loadQuestion();
+        }
+
+        // Initialize quiz on load
+        loadQuestion();
+    </script>
+</body>
+</html>
